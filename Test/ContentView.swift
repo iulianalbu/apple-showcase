@@ -9,14 +9,24 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var selection: ShowcaseCategory? = .buttons
+    @State private var searchText = ""
+
+    private var filteredCategories: [ShowcaseCategory] {
+        guard !searchText.isEmpty else { return ShowcaseCategory.allCases }
+        return ShowcaseCategory.allCases.filter {
+            $0.title.localizedCaseInsensitiveContains(searchText)
+        }
+    }
 
     var body: some View {
         NavigationSplitView {
-            List(ShowcaseCategory.allCases, selection: $selection) { category in
+            List(filteredCategories, selection: $selection) { category in
                 Label(category.title, systemImage: category.symbol)
+                    .badge(category == .foundationModels ? 3 : 0)
             }
             .navigationTitle("HIG Showcase")
             .navigationSplitViewColumnWidth(min: 180, ideal: 210)
+            .searchable(text: $searchText, placement: .sidebar, prompt: "Search Categories")
         } detail: {
             Group {
                 switch selection {
@@ -43,6 +53,17 @@ struct ContentView: View {
                 }
             }
             .navigationTitle(selection?.title ?? "HIG Showcase")
+            .toolbar {
+                ToolbarItemGroup(placement: .primaryAction) {
+                    Button("Refresh", systemImage: "arrow.clockwise") {}
+                    Menu {
+                        Button("Copy Link", systemImage: "link") {}
+                        Button("Open in HIG", systemImage: "book") {}
+                    } label: {
+                        Label("More", systemImage: "ellipsis.circle")
+                    }
+                }
+            }
         }
     }
 }
