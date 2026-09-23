@@ -40,7 +40,7 @@ struct DataDisplayShowcase: View {
 
     var body: some View {
         Form {
-            Section("Table") {
+            Section {
                 Table(fruits, selection: $tableSelection, sortOrder: $sortOrder) {
                     TableColumn("Name", value: \.name)
                     TableColumn("Color", value: \.color)
@@ -53,6 +53,12 @@ struct DataDisplayShowcase: View {
                 .onChange(of: sortOrder) { _, newOrder in
                     fruits.sort(using: newOrder)
                 }
+            } header: {
+                Text("Table")
+            } footer: {
+                #if os(iOS)
+                Text("In a compact width, such as on iPhone, a table shows only its first column, without headers.")
+                #endif
             }
 
             Section("Disclosure & Grouping") {

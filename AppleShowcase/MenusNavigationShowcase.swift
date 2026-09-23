@@ -11,6 +11,12 @@ struct MenusNavigationShowcase: View {
     @State private var showPopover = false
     @State private var favoriteColor = "Red"
 
+    #if os(macOS)
+    private let contextMenuPrompt: LocalizedStringKey = "Right-click me"
+    #else
+    private let contextMenuPrompt: LocalizedStringKey = "Long-press me"
+    #endif
+
     var body: some View {
         Form {
             Section("Menus") {
@@ -32,7 +38,7 @@ struct MenusNavigationShowcase: View {
             }
 
             Section("Context Menu") {
-                Text("Right-click me")
+                Text(contextMenuPrompt)
                     .padding()
                     .frame(maxWidth: .infinity)
                     .background(.quaternary, in: RoundedRectangle(cornerRadius: 8))
@@ -61,7 +67,12 @@ struct MenusNavigationShowcase: View {
                 Button("Dismiss") { showSheet = false }
             }
             .padding()
+            #if os(macOS)
             .frame(width: 300, height: 150)
+            #else
+            .presentationDetents([.medium, .large])
+            .presentationDragIndicator(.visible)
+            #endif
         }
         .confirmationDialog("Are you sure?", isPresented: $showConfirm, titleVisibility: .visible) {
             Button("Confirm", role: .destructive) {}
