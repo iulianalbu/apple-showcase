@@ -1,6 +1,6 @@
 //
 //  FeedbackShowcase.swift
-//  Test
+//  AppleShowcase
 //
 
 import SwiftUI

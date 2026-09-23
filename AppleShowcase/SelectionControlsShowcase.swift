@@ -1,6 +1,6 @@
 //
 //  SelectionControlsShowcase.swift
-//  Test
+//  AppleShowcase
 //
 
 import SwiftUI

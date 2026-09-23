@@ -1,6 +1,6 @@
 //
 //  FoundationModelsShowcase.swift
-//  Test
+//  AppleShowcase
 //
 
 import SwiftUI

@@ -1,6 +1,6 @@
 //
 //  DataEntryShowcase.swift
-//  Test
+//  AppleShowcase
 //
 
 import SwiftUI

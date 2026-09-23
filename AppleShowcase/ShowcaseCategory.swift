@@ -1,6 +1,6 @@
 //
 //  ShowcaseCategory.swift
-//  Test
+//  AppleShowcase
 //
 
 import SwiftUI

@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  Test
+//  AppleShowcase
 //
 //  Created by Iulian Albu on 12/09/2026.
 //

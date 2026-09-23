@@ -1,6 +1,6 @@
 //
 //  MenusNavigationShowcase.swift
-//  Test
+//  AppleShowcase
 //
 
 import SwiftUI

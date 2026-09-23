@@ -1,6 +1,6 @@
 //
-//  TestApp.swift
-//  Test
+//  AppleShowcaseApp.swift
+//  AppleShowcase
 //
 //  Created by Iulian Albu on 12/09/2026.
 //
@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct TestApp: App {
+struct AppleShowcaseApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
