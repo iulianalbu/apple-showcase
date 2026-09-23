@@ -11,7 +11,7 @@ struct ButtonsShowcase: View {
 
     var body: some View {
         Form {
-            Section("Bordered Styles") {
+            Section {
                 Button("Automatic") {}
                 Button("Bordered") {}
                     .buttonStyle(.bordered)
@@ -21,8 +21,18 @@ struct ButtonsShowcase: View {
                     .buttonStyle(.borderless)
                 Button("Plain") {}
                     .buttonStyle(.plain)
+                #if os(macOS)
                 Button("Link") {}
                     .buttonStyle(.link)
+                #else
+                Link("Link", destination: URL(string: "https://developer.apple.com/design/human-interface-guidelines/buttons")!)
+                #endif
+            } header: {
+                Text("Bordered Styles")
+            } footer: {
+                #if os(iOS)
+                Text("The link button style is macOS-only. On iOS, use a Link view instead.")
+                #endif
             }
 
             Section("Liquid Glass") {

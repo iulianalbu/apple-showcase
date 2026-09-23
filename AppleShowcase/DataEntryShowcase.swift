@@ -28,11 +28,22 @@ struct DataEntryShowcase: View {
                     )
             }
 
-            Section("Date & Time") {
+            Section {
+                #if os(macOS)
                 DatePicker("Field with Stepper", selection: $date)
                     .datePickerStyle(.stepperField)
+                #else
+                DatePicker("Compact", selection: $date)
+                    .datePickerStyle(.compact)
+                #endif
                 DatePicker("Graphical", selection: $date, displayedComponents: .date)
                     .datePickerStyle(.graphical)
+            } header: {
+                Text("Date & Time")
+            } footer: {
+                #if os(iOS)
+                Text("The stepper field style is macOS-only. On iOS, use a compact date picker.")
+                #endif
             }
 
             Section("Color") {
