@@ -8,7 +8,12 @@
 import SwiftUI
 
 struct ContentView: View {
+    #if os(iOS)
+    // On iPhone the split view collapses to a stack, so start on the category list.
+    @State private var selection: ShowcaseCategory? = UIDevice.current.userInterfaceIdiom == .phone ? nil : .buttons
+    #else
     @State private var selection: ShowcaseCategory? = .buttons
+    #endif
     @State private var searchText = ""
 
     private var filteredCategories: [ShowcaseCategory] {
