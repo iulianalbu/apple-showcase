@@ -13,5 +13,6 @@ struct TestApp: App {
         WindowGroup {
             ContentView()
         }
+        .defaultSize(width: 900, height: 650)
     }
 }
