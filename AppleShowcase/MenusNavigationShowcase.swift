@@ -9,6 +9,9 @@ struct MenusNavigationShowcase: View {
     @State private var showSheet = false
     @State private var showConfirm = false
     @State private var showPopover = false
+    #if os(iOS)
+    @State private var showFullScreenCover = false
+    #endif
     @State private var favoriteColor = "Red"
 
     #if os(macOS)
@@ -56,6 +59,9 @@ struct MenusNavigationShowcase: View {
                         Text("This is a popover")
                             .padding()
                     }
+                #if os(iOS)
+                Button("Show Full-Screen Cover") { showFullScreenCover = true }
+                #endif
                 ShareLink(item: URL(string: "https://developer.apple.com")!)
             }
         }
@@ -78,6 +84,16 @@ struct MenusNavigationShowcase: View {
             Button("Confirm", role: .destructive) {}
             Button("Cancel", role: .cancel) {}
         }
+        #if os(iOS)
+        .fullScreenCover(isPresented: $showFullScreenCover) {
+            VStack(spacing: 16) {
+                Text("Full-Screen Cover")
+                    .font(.headline)
+                Button("Dismiss") { showFullScreenCover = false }
+            }
+            .padding()
+        }
+        #endif
     }
 }
 

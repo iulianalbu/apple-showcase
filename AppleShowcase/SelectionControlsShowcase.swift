@@ -10,6 +10,9 @@ struct SelectionControlsShowcase: View {
     @State private var isChecked = true
     @State private var menuFlavor = "Vanilla"
     @State private var radioFlavor = "Chocolate"
+    #if os(iOS)
+    @State private var wheelFlavor = "Strawberry"
+    #endif
     @State private var alignment = 1
     @State private var quantity = 3
     @State private var volume = 0.5
@@ -61,6 +64,15 @@ struct SelectionControlsShowcase: View {
                 Text("Radio groups are macOS-only. On iOS, use an inline picker.")
                 #endif
             }
+
+            #if os(iOS)
+            Section("Wheel Picker") {
+                Picker("Wheel", selection: $wheelFlavor) {
+                    ForEach(flavors, id: \.self) { Text($0) }
+                }
+                .pickerStyle(.wheel)
+            }
+            #endif
 
             Section("Stepper") {
                 Stepper("Quantity: \(quantity)", value: $quantity, in: 0...10)
