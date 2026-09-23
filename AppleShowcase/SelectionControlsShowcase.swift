@@ -18,14 +18,22 @@ struct SelectionControlsShowcase: View {
 
     var body: some View {
         Form {
-            Section("Toggles") {
+            Section {
                 Toggle("Switch Style", isOn: $isEnabled)
                     .toggleStyle(.switch)
+                #if os(macOS)
                 Toggle("Checkbox Style", isOn: $isChecked)
                     .toggleStyle(.checkbox)
+                #endif
+            } header: {
+                Text("Toggles")
+            } footer: {
+                #if os(iOS)
+                Text("Checkbox toggles are macOS-only. On iOS, use a switch.")
+                #endif
             }
 
-            Section("Pickers") {
+            Section {
                 Picker("Menu", selection: $menuFlavor) {
                     ForEach(flavors, id: \.self) { Text($0) }
                 }
@@ -35,10 +43,23 @@ struct SelectionControlsShowcase: View {
                     Text("Right").tag(2)
                 }
                 .pickerStyle(.segmented)
+                #if os(macOS)
                 Picker("Radio Group", selection: $radioFlavor) {
                     ForEach(flavors, id: \.self) { Text($0) }
                 }
                 .pickerStyle(.radioGroup)
+                #else
+                Picker("Inline", selection: $radioFlavor) {
+                    ForEach(flavors, id: \.self) { Text($0) }
+                }
+                .pickerStyle(.inline)
+                #endif
+            } header: {
+                Text("Pickers")
+            } footer: {
+                #if os(iOS)
+                Text("Radio groups are macOS-only. On iOS, use an inline picker.")
+                #endif
             }
 
             Section("Stepper") {
