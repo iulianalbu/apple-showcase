@@ -8,6 +8,10 @@ import SwiftUI
 struct FeedbackShowcase: View {
     @State private var progress = 0.4
     @State private var gaugeValue = 67.0
+    #if os(iOS)
+    @State private var haptic: SensoryFeedback = .success
+    @State private var hapticCount = 0
+    #endif
 
     var body: some View {
         Form {
@@ -56,9 +60,31 @@ struct FeedbackShowcase: View {
                         .foregroundStyle(.white)
                 }
             }
+
+            #if os(iOS)
+            Section {
+                Button("Success", systemImage: "checkmark.circle") { playHaptic(.success) }
+                Button("Warning", systemImage: "exclamationmark.triangle") { playHaptic(.warning) }
+                Button("Error", systemImage: "xmark.octagon") { playHaptic(.error) }
+                Button("Selection", systemImage: "hand.tap") { playHaptic(.selection) }
+                Button("Impact", systemImage: "burst") { playHaptic(.impact) }
+            } header: {
+                Text("Haptics")
+            } footer: {
+                Text("Haptics play on iPhone only. iPad and the Simulator have no haptic engine.")
+            }
+            .sensoryFeedback(trigger: hapticCount) { _, _ in haptic }
+            #endif
         }
         .formStyle(.grouped)
     }
+
+    #if os(iOS)
+    private func playHaptic(_ feedback: SensoryFeedback) {
+        haptic = feedback
+        hapticCount += 1
+    }
+    #endif
 }
 
 #Preview {

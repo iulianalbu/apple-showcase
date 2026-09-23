@@ -28,6 +28,10 @@ private let sampleTree: [FileNode] = [
     ])
 ]
 
+#if os(iOS)
+private let sampleMessages = ["Team Standup", "Invoice #1042", "Weekend Plans"]
+#endif
+
 struct DataDisplayShowcase: View {
     @State private var fruits = [
         Fruit(name: "Apple", color: "Red", calories: 95),
@@ -37,6 +41,10 @@ struct DataDisplayShowcase: View {
     ]
     @State private var sortOrder = [KeyPathComparator(\Fruit.name)]
     @State private var tableSelection: Fruit.ID?
+    #if os(iOS)
+    @State private var messages = sampleMessages
+    @State private var lastRefreshed = Date.now
+    #endif
 
     var body: some View {
         Form {
@@ -79,8 +87,48 @@ struct DataDisplayShowcase: View {
                     Label(node.name, systemImage: node.icon)
                 }
             }
+
+            #if os(iOS)
+            Section {
+                ForEach(messages, id: \.self) { message in
+                    Label(message, systemImage: "envelope")
+                        .swipeActions(edge: .leading) {
+                            Button("Pin", systemImage: "pin") {}
+                                .tint(.yellow)
+                        }
+                        .swipeActions(edge: .trailing) {
+                            Button("Delete", systemImage: "trash", role: .destructive) {
+                                messages.removeAll { $0 == message }
+                            }
+                            Button("Flag", systemImage: "flag") {}
+                                .tint(.orange)
+                        }
+                }
+            } header: {
+                Text("Swipe Actions")
+            } footer: {
+                Text("Swipe a row right to pin it, or left to flag or delete it.")
+            }
+
+            Section {
+                LabeledContent("Last Refreshed") {
+                    Text(lastRefreshed, style: .time)
+                }
+            } header: {
+                Text("Pull to Refresh")
+            } footer: {
+                Text("Pull down anywhere on this screen to refresh. Refreshing also restores deleted rows.")
+            }
+            #endif
         }
         .formStyle(.grouped)
+        #if os(iOS)
+        .refreshable {
+            try? await Task.sleep(for: .seconds(1))
+            messages = sampleMessages
+            lastRefreshed = .now
+        }
+        #endif
     }
 }
 

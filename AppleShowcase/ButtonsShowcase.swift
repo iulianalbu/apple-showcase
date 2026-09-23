@@ -74,6 +74,21 @@ struct ButtonsShowcase: View {
                 Toggle("Bookmarked", systemImage: "bookmark.fill", isOn: $isBookmarked)
                     .toggleStyle(.button)
             }
+
+            #if os(iOS)
+            Section {
+                Button("Highlight", systemImage: "cursorarrow") {}
+                    .buttonStyle(.bordered)
+                    .hoverEffect(.highlight)
+                Button("Lift", systemImage: "cursorarrow.rays") {}
+                    .buttonStyle(.bordered)
+                    .hoverEffect(.lift)
+            } header: {
+                Text("Pointer Hover")
+            } footer: {
+                Text("Hover effects appear on iPad with a trackpad or mouse.")
+            }
+            #endif
         }
         .formStyle(.grouped)
         .alert("Delete this item?", isPresented: $showDeleteAlert) {
